@@ -4,9 +4,11 @@ pragma solidity ^0.8.20;
 contract Attack {
     address public etherStore;
     uint256 public constant AMOUNT = 1 ether;
+    address immutable owner;
 
     constructor(address _etherStoreAddress) {
         etherStore = _etherStoreAddress;
+        owner = msg.sender;
     }
 
     // Fallback is called when EtherStore sends Ether to this contract.
@@ -28,5 +30,10 @@ contract Attack {
     // Helper function to check the balance of this contract
     function getBalance() public view returns (uint256) {
         return address(this).balance;
+    }
+
+    function withdraw() external {
+        require(msg.sender == owner, "You are not the owner");
+        payable(owner).transfer(address(this).balance);
     }
 }
