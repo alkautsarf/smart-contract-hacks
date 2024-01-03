@@ -36,13 +36,18 @@ contract EtherStore {
     }
 
     function withdraw() public {
-        uint256 bal = balances[msg.sender];
-        require(bal > 0);
+        // uint256 bal = balances[msg.sender];
+        // require(bal > 0);
 
-        (bool sent,) = msg.sender.call{value: bal}("");
-        require(sent, "Failed to send Ether");
+        // (bool sent,) = msg.sender.call{value: bal}("");
+        // require(sent, "Failed to send Ether");
 
-        balances[msg.sender] = 0;
+        // balances[msg.sender] = 0;
+        if(balances[msg.sender] > 0) {
+            (bool sent,) = msg.sender.call{value: balances[msg.sender]}("");
+            require(sent, "Failed to send Ether");
+            balances[msg.sender] = 0;
+        }
     }
 
     // Helper function to check the balance of this contract
